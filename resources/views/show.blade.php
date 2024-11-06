@@ -2,18 +2,25 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container">
     <h1>Product Details</h1>
 
-    <p><strong>Product ID:</strong> {{ $product->product_id }}</p>
-    <p><strong>Name:</strong> {{ $product->name }}</p>
-    <p><strong>Description:</strong> {{ $product->description }}</p>
-    <p><strong>Price:</strong> {{ $product->price }}</p>
-    <p><strong>Stock:</strong> {{ $product->stock }}</p>
+    <div>
+        <strong>Product ID:</strong> {{ $product->product_id }}
+    </div>
+    <div>
+        <strong>Name:</strong> {{ $product->name }}
+    </div>
+    <div>
+        <strong>Price:</strong> {{ $product->price }}
+    </div>
+    <div>
+        <strong>Description:</strong> {{ $product->description }}
+    </div>
+    <div>
+        <strong>Stock:</strong> {{ $product->stock }}
+    </div>
 
-    @if($product->image)
-        <p><strong>Image:</strong></p>
-        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="150">
-    @endif
-
-    <a href="{{ route('products.index') }}">Back to List</a>
+    <a href="{{ route('products.index') }}" class="btn btn-secondary">Back to List</a>
+</div>
 @endsection

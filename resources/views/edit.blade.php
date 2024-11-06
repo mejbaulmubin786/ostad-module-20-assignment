@@ -2,30 +2,39 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container">
     <h1>Edit Product</h1>
 
-    <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data">
+    <form action="{{ route('products.update', $product->id) }}" method="POST">
         @csrf
         @method('PUT')
 
-        <label>Product ID:</label>
-        <input type="text" name="product_id" value="{{ $product->product_id }}" required><br>
+        <div class="form-group">
+            <label for="product_id">Product ID</label>
+            <input type="text" name="product_id" class="form-control" value="{{ $product->product_id }}" required>
+        </div>
 
-        <label>Name:</label>
-        <input type="text" name="name" value="{{ $product->name }}" required><br>
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" name="name" class="form-control" value="{{ $product->name }}" required>
+        </div>
 
-        <label>Description:</label>
-        <textarea name="description">{{ $product->description }}</textarea><br>
+        <div class="form-group">
+            <label for="price">Price</label>
+            <input type="number" name="price" class="form-control" value="{{ $product->price }}" required step="0.01">
+        </div>
 
-        <label>Price:</label>
-        <input type="number" name="price" step="0.01" value="{{ $product->price }}" required><br>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" class="form-control">{{ $product->description }}</textarea>
+        </div>
 
-        <label>Stock:</label>
-        <input type="number" name="stock" value="{{ $product->stock }}"><br>
+        <div class="form-group">
+            <label for="stock">Stock</label>
+            <input type="number" name="stock" class="form-control" value="{{ $product->stock }}">
+        </div>
 
-        <label>Image:</label>
-        <input type="file" name="image"><br>
-
-        <button type="submit">Update Product</button>
+        <button type="submit" class="btn btn-primary">Update Product</button>
     </form>
+</div>
 @endsection

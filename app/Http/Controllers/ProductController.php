@@ -10,18 +10,20 @@ class ProductController extends Controller {
      * Display a listing of the resource.
      */
     public function index(Request $request) {
-        // Fetch all products with pagination, sorting, and search functionality
+        // Search and sorting logic
         $query = Product::query();
 
-        // Implement sorting by name or price
-        if ($request->has('sort_by') && in_array($request->sort_by, ['name', 'price'])) {
-            $query->orderBy($request->sort_by);
+        // Searching by product_id or description
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('product_id', 'like', "%$search%")
+                ->orWhere('description', 'like', "%$search%");
         }
 
-        // Implement search by product_id or description
-        if ($request->has('search')) {
-            $query->where('product_id', 'like', '%' . $request->search . '%')
-                ->orWhere('description', 'like', '%' . $request->search . '%');
+        // Sorting by name or price
+        if ($request->has('sort')) {
+            $sort = $request->input('sort');
+            $query->orderBy($sort);
         }
 
         $products = $query->paginate(10);
@@ -40,17 +42,12 @@ class ProductController extends Controller {
      * Store a newly created resource in storage.
      */
     public function store(Request $request) {
-        // Validate request data
         $request->validate([
-            'product_id' => 'required|string|unique:products',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'product_id' => 'required|unique:products',
+            'name' => 'required',
             'price' => 'required|numeric',
-            'stock' => 'nullable|integer',
-            'image' => 'nullable|string',
         ]);
 
-        // Create a new product
         Product::create($request->all());
 
         return redirect()->route('products.index')->with('success', 'Product created successfully.');
@@ -76,17 +73,12 @@ class ProductController extends Controller {
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id) {
-        // Validate request data
         $request->validate([
-            'product_id' => 'required|string|unique:products,product_id,' . $id,
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'product_id' => 'required|unique:products,product_id,' . $id,
+            'name' => 'required',
             'price' => 'required|numeric',
-            'stock' => 'nullable|integer',
-            'image' => 'nullable|string',
         ]);
 
-        // Find and update the product
         $product = Product::findOrFail($id);
         $product->update($request->all());
 
