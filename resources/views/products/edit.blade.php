@@ -5,7 +5,7 @@
 <div class="container">
     <h1>Edit Product</h1>
 
-    <form action="{{ route('products.update', $product->id) }}" method="POST">
+    <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -33,6 +33,20 @@
             <label for="stock">Stock</label>
             <input type="number" name="stock" class="form-control" value="{{ $product->stock }}">
         </div>
+
+        <div class="form-group">
+            <label for="image">Product Image</label>
+            <input type="file" name="image" class="form-control-file" accept="image/*">
+        </div>
+
+        <!-- Display existing image if available -->
+        @if($product->image)
+            <div class="form-group">
+                <p>Current Image:</p>
+                <img src="{{ asset('storage/' . $product->image) }}" alt="Product Image" style="max-width: 150px;">
+            </div>
+        @endif
+
 
         <button type="submit" class="btn btn-primary">Update Product</button>
     </form>

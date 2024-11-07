@@ -27,6 +27,7 @@
                 <th>Product ID</th>
                 <th>Name</th>
                 <th>Price</th>
+                <th>Image</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -37,6 +38,13 @@
                 <td>{{ $product->product_id }}</td>
                 <td>{{ $product->name }}</td>
                 <td>{{ $product->price }}</td>
+                <td>
+                    @if($product->image)
+                        <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}" width="50">
+                    @else
+                        No Image
+                    @endif
+                </td>
                 <td>
                     <a href="{{ route('products.show', $product->id) }}" class="btn btn-info">View</a>
                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning">Edit</a>

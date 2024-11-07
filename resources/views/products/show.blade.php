@@ -21,6 +21,18 @@
         <strong>Stock:</strong> {{ $product->stock }}
     </div>
 
+    <!-- Display Product Image if exists -->
+    @if($product->image)
+        <div>
+            <strong>Image:</strong><br>
+            <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" style="width: 200px; height: auto;">
+        </div>
+    @else
+        <div>
+            <strong>Image:</strong> No image available.
+        </div>
+    @endif
+
     <a href="{{ route('products.index') }}" class="btn btn-secondary">Back to List</a>
 </div>
 @endsection
